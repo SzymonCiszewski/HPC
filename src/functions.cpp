@@ -173,9 +173,7 @@ void wizualizacja(sf::RenderWindow &window, const std::vector<double>& u, const 
     double x2 = 600.0;
     double y2 = 100.0;
 
-    // Ustaw kolor dla rysowania linii (odpowiada setcolor(1))
     sf::Color lineColor = sf::Color::White;
-    // Rysujemy linie, wykorzystując sf::Vertex (przy typie sf::Lines)
     sf::Vertex line1[] = {
         sf::Vertex(sf::Vector2f(x1, y1), lineColor),
         sf::Vertex(sf::Vector2f(x2, y2), lineColor)
@@ -203,26 +201,23 @@ void wizualizacja(sf::RenderWindow &window, const std::vector<double>& u, const 
    
     sf::Color circleColor(100, 0, 0);
 
-    // Rysujemy koła
-    // Przyjmujemy, że "circle(..., 2)" rysuje okrąg o promieniu 2
     for (int i = 0; i < n; ++i) {
-		//std::cout << "u[" << i << "] = " << u[i] << std::endl;
-        // Obliczamy pozycję środka okręgów
+		
         float centerX = static_cast<float>((x1 + x2) / 2.0 + u[i]);
         float centerYUpper = static_cast<float>(y1 + r2 * k - r[i] * k);
         float centerYLower = static_cast<float>(y1 + r2 * k + r[i] * k);
         
-        // Tworzymy kształt koła (o promieniu 2)
+      
         sf::CircleShape circle(2);
-        // Aby pozycja wskazywała środek okręgu, ustawiamy origin na (2,2)
+
         circle.setOrigin(2, 2);
         circle.setFillColor(circleColor);
 
-        // Rysujemy górny okrąg
+    
         circle.setPosition(centerX, centerYUpper);
         window.draw(circle);
 
-        // Rysujemy dolny okrąg
+   
         circle.setPosition(centerX, centerYLower);
         window.draw(circle);
     }
