@@ -1,14 +1,6 @@
 #include "functions.hpp"
 #include "globals.hpp"
 #include "benchmark/benchmark.h"
-#include <cblas.h>
-#include <vector>
-#include <iostream>
-#include <thread>
-#include <cstdio>       
-#include <cstdlib>      
-#include <algorithm>      
-#include <ranges>      
 
 
 void symulacja(benchmark::State& state) {

@@ -1,16 +1,20 @@
 #ifndef FUNCTIONS_HPP
 #define FUNCTIONS_HPP
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <vector>
 #include <exception>
 #include <iostream>
- #include <thread>
+#include <thread>
 #include <iomanip>
 #include <SFML/Graphics.hpp>
 #include "globals.hpp"
+#include <algorithm>
+#include <ranges>
+#include <cblas.h>
+  
+      
 
 
 void wczytaj_dane(double &D, double &d, double &a, double &T, int &ciecz, double &mi, double &delta_t, double &tk);

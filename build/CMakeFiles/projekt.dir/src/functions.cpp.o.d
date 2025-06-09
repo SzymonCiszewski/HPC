@@ -323,4 +323,8 @@ CMakeFiles/projekt.dir/src/functions.cpp.o: \
  /usr/include/SFML/Graphics/Text.hpp \
  /usr/include/SFML/Graphics/VertexBuffer.hpp \
  /home/szymo/HPC/Projekt7v9/projekt_HPC/include/globals.hpp \
- /usr/include/c++/13/mutex /usr/include/c++/13/bits/unique_lock.h
+ /usr/include/c++/13/mutex /usr/include/c++/13/bits/unique_lock.h \
+ /usr/include/c++/13/ranges /usr/include/c++/13/span \
+ /usr/include/c++/13/array /usr/include/c++/13/variant \
+ /usr/include/x86_64-linux-gnu/cblas.h \
+ /usr/include/x86_64-linux-gnu/openblas_config.h
