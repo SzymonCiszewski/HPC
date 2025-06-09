@@ -8,6 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/szymo/HPC/Projekt7v9/projekt_HPC/src/functions.cpp" "CMakeFiles/projekt.dir/src/functions.cpp.o" "gcc" "CMakeFiles/projekt.dir/src/functions.cpp.o.d"
+  "/home/szymo/HPC/Projekt7v9/projekt_HPC/src/globals.cpp" "CMakeFiles/projekt.dir/src/globals.cpp.o" "gcc" "CMakeFiles/projekt.dir/src/globals.cpp.o.d"
   "/home/szymo/HPC/Projekt7v9/projekt_HPC/src/main.cpp" "CMakeFiles/projekt.dir/src/main.cpp.o" "gcc" "CMakeFiles/projekt.dir/src/main.cpp.o.d"
   )
 

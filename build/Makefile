@@ -129,6 +129,54 @@ projekt/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/projekt.dir/build.make CMakeFiles/projekt.dir/build
 .PHONY : projekt/fast
 
+src/functions.o: src/functions.cpp.o
+.PHONY : src/functions.o
+
+# target to build an object file
+src/functions.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/projekt.dir/build.make CMakeFiles/projekt.dir/src/functions.cpp.o
+.PHONY : src/functions.cpp.o
+
+src/functions.i: src/functions.cpp.i
+.PHONY : src/functions.i
+
+# target to preprocess a source file
+src/functions.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/projekt.dir/build.make CMakeFiles/projekt.dir/src/functions.cpp.i
+.PHONY : src/functions.cpp.i
+
+src/functions.s: src/functions.cpp.s
+.PHONY : src/functions.s
+
+# target to generate assembly for a file
+src/functions.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/projekt.dir/build.make CMakeFiles/projekt.dir/src/functions.cpp.s
+.PHONY : src/functions.cpp.s
+
+src/globals.o: src/globals.cpp.o
+.PHONY : src/globals.o
+
+# target to build an object file
+src/globals.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/projekt.dir/build.make CMakeFiles/projekt.dir/src/globals.cpp.o
+.PHONY : src/globals.cpp.o
+
+src/globals.i: src/globals.cpp.i
+.PHONY : src/globals.i
+
+# target to preprocess a source file
+src/globals.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/projekt.dir/build.make CMakeFiles/projekt.dir/src/globals.cpp.i
+.PHONY : src/globals.cpp.i
+
+src/globals.s: src/globals.cpp.s
+.PHONY : src/globals.s
+
+# target to generate assembly for a file
+src/globals.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/projekt.dir/build.make CMakeFiles/projekt.dir/src/globals.cpp.s
+.PHONY : src/globals.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -162,6 +210,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... projekt"
+	@echo "... src/functions.o"
+	@echo "... src/functions.i"
+	@echo "... src/functions.s"
+	@echo "... src/globals.o"
+	@echo "... src/globals.i"
+	@echo "... src/globals.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

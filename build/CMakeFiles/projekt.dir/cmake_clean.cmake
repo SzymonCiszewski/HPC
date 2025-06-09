@@ -1,4 +1,8 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/projekt.dir/src/functions.cpp.o"
+  "CMakeFiles/projekt.dir/src/functions.cpp.o.d"
+  "CMakeFiles/projekt.dir/src/globals.cpp.o"
+  "CMakeFiles/projekt.dir/src/globals.cpp.o.d"
   "CMakeFiles/projekt.dir/src/main.cpp.o"
   "CMakeFiles/projekt.dir/src/main.cpp.o.d"
   "projekt"

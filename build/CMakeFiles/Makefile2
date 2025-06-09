@@ -81,12 +81,12 @@ clean: CMakeFiles/projekt.dir/clean
 CMakeFiles/projekt.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/projekt.dir/build.make CMakeFiles/projekt.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/projekt.dir/build.make CMakeFiles/projekt.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/szymo/HPC/Projekt7v9/projekt_HPC/build/CMakeFiles --progress-num=1,2 "Built target projekt"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/szymo/HPC/Projekt7v9/projekt_HPC/build/CMakeFiles --progress-num=1,2,3,4 "Built target projekt"
 .PHONY : CMakeFiles/projekt.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/projekt.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/szymo/HPC/Projekt7v9/projekt_HPC/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/szymo/HPC/Projekt7v9/projekt_HPC/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/projekt.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/szymo/HPC/Projekt7v9/projekt_HPC/build/CMakeFiles 0
 .PHONY : CMakeFiles/projekt.dir/rule
