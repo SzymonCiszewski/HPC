@@ -125,6 +125,22 @@ void Thomas(const std::vector<std::vector<double>> &A,  std::vector<double>& x, 
     free(beta);
 }
 
+void Thomas_3D(const std::vector<double> &dl,const std::vector<double> &diag,const std::vector<double> &du,  std::vector<double>& x,  double* b, int N) {
+    std::vector<double> alpha(N);
+    std::vector<double> beta(N);
+    alpha[0] = -du.at(0) / diag.at(0);
+    beta[0] = b[0] / diag.at(0);
+    for (int i = 0; i < N-2; ++i) {
+        alpha[i+1] = -du.at(i+1) / (diag.at(i+1) + alpha[i]*dl.at(i));
+        beta[i+1] = (b[i+1] -dl.at(i) * beta[i]) / (diag.at(i+1) + alpha[i] *dl.at(i));
+    }
+    x[N - 1] = (b[N - 1] - dl.at(N-2) * beta[ N - 2]) / (diag.at(N-1)  + alpha[N-2]*  dl.at(N-2));
+    for (int i = N - 2; i >= 0; --i) {
+        x[i] = alpha[i] * x[i + 1] + beta[i];
+    }
+  
+}
+
 void extractTridiagonals(const std::vector<std::vector<double>> &A, 
                            std::vector<double> &dl, 
                            std::vector<double> &diag, 
@@ -252,18 +268,15 @@ void wizualizacja_thread_func(sf::RenderWindow &window,
 void symuluj_dgtsv(double a, double T,double delta_t, double t, std::vector<double>& u01, std::vector<double>& u1,std::vector<double>& u, 
                      const std::vector<double>& r_j,     int n1, int n,  double *b,const std::vector<double>&dl,
                      const std::vector<double>&diag,  const std::vector<double>&du,double u_sr, double h, double A_r, double Q,
-                    FILE* fb,FILE* fu, FILE* fr,FILE* fu_srQ, int nt ){
+                     int nt ){
     std::vector<double> dl_copy(n1 - 1);
     std::vector<double> diag_copy(n1);
     std::vector<double> du_copy(n1 - 1);
-
-      const int aa = 1;
+    const int aa = 1;
     int info = 0;
     for (unsigned int j = 0; j < nt; ++j) {
-        sf::sleep(sf::milliseconds(5));
-        std::lock_guard<std::mutex> lock(dataMutex);
-		//for (int i = 0; i < static_cast<int>(u.size()); ++i)
-           // std::cout << "b[" << i << "] = " << b[i] << std::endl;
+        //sf::sleep(sf::milliseconds(5));
+        //std::lock_guard<std::mutex> lock(dataMutex);
         wektor_prawych_stron(a, T, delta_t, t, u01, n1, b);
 		std::ranges::copy(dl,std::begin(dl_copy));
 		std::ranges::copy(diag,std::begin(diag_copy));
@@ -272,30 +285,9 @@ void symuluj_dgtsv(double a, double T,double delta_t, double t, std::vector<doub
         for (size_t i = 0; i < static_cast<size_t>(n1); ++i) {
             u1.at(i) = b[i];
         }
-		//Thomas(A, u1, b, n1);
-        std::cout << "Czas = " << t << " s" << std::endl;
-       // for (int i = 0; i < static_cast<int>(u.size()); ++i)
-           // std::cout << "u[" << i << "] = " << u[i] << std::endl;
-
         rozwiazanie_calkowite(u1, n, u);
         srednia_predkosc(u, r_j, n, &u_sr, h);
         wydatek(u_sr, A_r, &Q);
-
-        // Zapis do plikow
-        if (j % 100 == 0 && t > 0.649) {
-            for (int i = 0; i < n1; ++i) {
-                fprintf(fb, "%lf\n", b[i]);
-            }
-            for (int i = 0; i < n; ++i) {
-                fprintf(fu, "%lf\n", u[i]);
-            }
-            for (int i = 0; i < n; ++i) {
-                fprintf(fr, "%lf\t%lf\n", r_j[i], t);
-            }
-            fprintf(fu_srQ, "%lf\t%lf\t%lf\n", t, u_sr, Q);
-            printf("%d\n", j);
-        }
-
         // Nadpisanie stanu z poprzedniej iteracji
         for (int i = 0; i < n1; ++i) {
             u01[i] = u1[i];
@@ -305,38 +297,37 @@ void symuluj_dgtsv(double a, double T,double delta_t, double t, std::vector<doub
 }
 
 void symuluj_Thomas(double a, double T,double delta_t, double t, std::vector<double>& u01, std::vector<double>& u1,std::vector<double>& u, 
-                     const std::vector<double>& r_j, const std::vector<std::vector<double>>& A,   int n1, int n,  double *b,double u_sr, double h, double A_r, double Q,
-                    FILE* fb,FILE* fu, FILE* fr,FILE* fu_srQ, int nt){
+                     const std::vector<double>& r_j, const std::vector<std::vector<double>>& A,   int n1, int n,  double *b,double u_sr, double h, double A_r, double Q, int nt){
 
     for (unsigned int j = 0; j < nt; ++j) {
-        sf::sleep(sf::milliseconds(5));
-        std::lock_guard<std::mutex> lock(dataMutex);
-		//for (int i = 0; i < static_cast<int>(u.size()); ++i)
-           // std::cout << "b[" << i << "] = " << b[i] << std::endl;
+        //sf::sleep(sf::milliseconds(5));
+        //std::lock_guard<std::mutex> lock(dataMutex);
         wektor_prawych_stron(a, T, delta_t, t, u01, n1, b);
-
 		Thomas(A, u1, b, n1);
-        std::cout << "Czas = " << t << " s" << std::endl;
-       // for (int i = 0; i < static_cast<int>(u.size()); ++i)
-           // std::cout << "u[" << i << "] = " << u[i] << std::endl;
         rozwiazanie_calkowite(u1, n, u);
         srednia_predkosc(u, r_j, n, &u_sr, h);
         wydatek(u_sr, A_r, &Q);
-        // Zapis do plikow
-        if (j % 100 == 0 && t > 0.649) {
-            for (int i = 0; i < n1; ++i) {
-                fprintf(fb, "%lf\n", b[i]);
-            }
-            for (int i = 0; i < n; ++i) {
-                fprintf(fu, "%lf\n", u[i]);
-            }
-            for (int i = 0; i < n; ++i) {
-                fprintf(fr, "%lf\t%lf\n", r_j[i], t);
-            }
-            fprintf(fu_srQ, "%lf\t%lf\t%lf\n", t, u_sr, Q);
-            printf("%d\n", j);
+        // Nadpisanie stanu z poprzedniej iteracji
+        for (int i = 0; i < n1; ++i) {
+            u01[i] = u1[i];
         }
+        t += delta_t;
+    }
+}
 
+
+void symuluj_Thomas3d(double a, double T,double delta_t, double t, std::vector<double>& u01, std::vector<double>& u1,std::vector<double>& u, 
+                     const std::vector<double>& r_j, const std::vector<double>&dl,
+                     const std::vector<double>&diag,  const std::vector<double>&du,   int n1, int n,  double *b,double u_sr, double h, double A_r, double Q, int nt){
+
+    for (unsigned int j = 0; j < nt; ++j) {
+        //sf::sleep(sf::milliseconds(5));
+        //std::lock_guard<std::mutex> lock(dataMutex);
+        wektor_prawych_stron(a, T, delta_t, t, u01, n1, b);
+		Thomas_3D(dl,diag,du, u1, b, n1);
+        rozwiazanie_calkowite(u1, n, u);
+        srednia_predkosc(u, r_j, n, &u_sr, h);
+        wydatek(u_sr, A_r, &Q);
         // Nadpisanie stanu z poprzedniej iteracji
         for (int i = 0; i < n1; ++i) {
             u01[i] = u1[i];

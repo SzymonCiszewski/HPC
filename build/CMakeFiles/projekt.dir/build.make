@@ -125,10 +125,12 @@ projekt: CMakeFiles/projekt.dir/src/functions.cpp.o
 projekt: CMakeFiles/projekt.dir/src/globals.cpp.o
 projekt: CMakeFiles/projekt.dir/build.make
 projekt: /home/szymo/spack/opt/spack/linux-ubuntu24.04-skylake/gcc-13.3.0/benchmark-1.9.1-rgxmuidn2b5tpbmjrubguyyjfeb37ohj/lib/libbenchmark.so.1.9.1
-projekt: /usr/lib/x86_64-linux-gnu/libopenblas.so
+projekt: /home/szymo/spack/opt/spack/linux-ubuntu24.04-skylake/gcc-13.3.0/openblas-0.3.29-qwjnrd5rdrrahbp572hatkoha4xf7gdx/lib/libopenblas.so
 projekt: /usr/lib/x86_64-linux-gnu/libsfml-graphics.so.2.6.1
 projekt: /usr/lib/x86_64-linux-gnu/libsfml-window.so.2.6.1
 projekt: /usr/lib/x86_64-linux-gnu/libsfml-system.so.2.6.1
+projekt: /usr/lib/gcc/x86_64-linux-gnu/13/libgomp.so
+projekt: /usr/lib/x86_64-linux-gnu/libpthread.a
 projekt: CMakeFiles/projekt.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/szymo/HPC/Projekt7v9/projekt_HPC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable projekt"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/projekt.dir/link.txt --verbose=$(VERBOSE)

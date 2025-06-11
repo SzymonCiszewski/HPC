@@ -35,6 +35,9 @@ void trapz(const std::vector<double>& x, double h, int n, double *y);
 
 void Thomas(const std::vector<std::vector<double>> &A,  std::vector<double>& x,  double*  b, int N);
 
+void Thomas_3D(const std::vector<double> &dl,const std::vector<double> &diag,const std::vector<double> &du,  std::vector<double>& x,  double* b, int N);
+
+
 void extractTridiagonals(const std::vector<std::vector<double>> &A, std::vector<double> &dl,  std::vector<double> &diag, std::vector<double> &du);
 
 
@@ -51,10 +54,14 @@ void wizualizacja_thread_func(sf::RenderWindow &window,
 void symuluj_dgtsv(double a, double T,double delta_t, double t, std::vector<double>& u01, std::vector<double>& u1,std::vector<double>& u, 
                      const std::vector<double>& r_j,     int n1, int n,  double *b,const std::vector<double>&dl,
                      const std::vector<double>&diag,  const std::vector<double>&du,double u_sr, double h, double A_r, double Q,
-                    FILE* fb,FILE* fu, FILE* fr,FILE* fu_srQ, int nt );
+                     int nt );
 
 void symuluj_Thomas(double a, double T,double delta_t, double t, std::vector<double>& u01, std::vector<double>& u1,std::vector<double>& u, 
                      const std::vector<double>& r_j, const std::vector<std::vector<double>>& A, int n1, int n,  double *b,double u_sr, double h, double A_r, double Q,
-                    FILE* fb,FILE* fu, FILE* fr,FILE* fu_srQ, int nt);
+                    int nt);
+
+void symuluj_Thomas3d(double a, double T,double delta_t, double t, std::vector<double>& u01, std::vector<double>& u1,std::vector<double>& u, 
+                     const std::vector<double>& r_j, const std::vector<double>&dl,
+                     const std::vector<double>&diag,  const std::vector<double>&du,   int n1, int n,  double *b,double u_sr, double h, double A_r, double Q, int nt);
 
 #endif 

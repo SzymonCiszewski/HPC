@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/szymo/HPC/Projekt7v9/projekt_HPC/include -isystem /home/szymo/spack/opt/spack/linux-ubuntu24.04-skylake/gcc-13.3.0/benchmark-1.9.1-rgxmuidn2b5tpbmjrubguyyjfeb37ohj/include -isystem /usr/include/eigen3
 
-CXX_FLAGS = -O3 -march=native -flto -ffast-math -funroll-loops -fomit-frame-pointer -O3 -DNDEBUG -std=gnu++23
+CXX_FLAGS = -O3 -DNDEBUG -std=gnu++23 -fopenmp
 

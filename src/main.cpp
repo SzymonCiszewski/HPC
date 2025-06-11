@@ -3,53 +3,46 @@
 #include "benchmark/benchmark.h"
 
 
+
 void symulacja(benchmark::State& state) {
-    FILE* fA = fopen("macierz_ukladu.txt", "w");
-    FILE* fb = fopen("wektor_prawych_stron.txt", "w");
-    FILE* fu = fopen("wektor_niewiadomych.txt", "w");
-    FILE* fr = fopen("wektor_r_wezlow.txt", "w");
-    FILE* fu_srQ = fopen("czas_srednia_predkosc_wydatek.txt", "w");
+    
+    // Liczba wezlow na y(r) – liczba wierszy macierzy wezlow [-]
+    const int n=state.range(0);
+    const int work_per_iteration = 42;
 
     // Srednica rury [m]
-    double D;
+    double D=0.2;
     // Srednica rdzenia [m]
-    double d;
-    // Krok pomiedzy wezlami [m]
-    double h = 1e-3;
+    double d=0.02;
     // Pole przekroju rury [m^2]
     double A_r;
     // Amplituda sily [N]
-    double a;
+    double a=50;
     // Rodzaj cieczy
     int ciecz;
     // Okres ruchu [s]
-    double T;
+    double T=10;
     // Czas [s]
     double t = 0;
     // Krok czasowy [s]
-    double delta_t;
+    double delta_t=pow(10, -2);
     // Czas trwania symulacji [s]
-    double tk;
+    double tk=10;
     // Lepkosc dynamiczna cieczy [Pa*s]
-    double mi;
-
-    // Wczytanie danych od uzytkownika
-    wczytaj_dane(D, d, a, T, ciecz, mi, delta_t, tk);
-
+    double mi=17.08 * 0.000001;
     // Promien rdzenia wewnetrznego [m]
     double r = d / 2;
     // Promien rury [m]
     double R = D / 2;
     przekroj_rury(r, R, &A_r);
-
     // Liczba krokow czasowych [-]
     int nt = (tk - t) / delta_t;
     // Liczba wezlow na y(r) – liczba wierszy macierzy wezlow [-]
-    int n = (R - r) / h + 1;
+    //int n;// = (R - r) / h + 1;
     // Liczba wezlow z niewiadoma u [-] (bez warunkow brzegowych)
     const int n1 = n - 2;
-
-    printf("Liczba wezlow, krokow czasowych : %d\t%d\n", n, nt);
+     // Krok pomiedzy wezlami [m]
+    double h = (R-r)/(n-1);
 
     std::vector<double> u(n);     // Wektor u dla wszystkich wezlow
     std::vector<double> u1(n1);     // Wektor u dla wezlow bez scianek
@@ -83,12 +76,7 @@ void symulacja(benchmark::State& state) {
 
     try {
         extractTridiagonals(A, dl, diag, du);
-        for (size_t i = 0; i < dl.size(); ++i)
-            std::cout << "dl[" << i << "] = " << dl[i] << std::endl;
-        for (size_t i = 0; i < diag.size(); ++i)
-            std::cout << "diag[" << i << "] = " << diag[i] << std::endl;
-        for (size_t i = 0; i < du.size(); ++i)
-            std::cout << "du[" << i << "] = " << du[i] << std::endl;
+        A.clear();
     }
     catch (const std::out_of_range& e) {
         std::cerr << "Wyjatek std::out_of_range: " << e.what() << std::endl;
@@ -98,7 +86,7 @@ void symulacja(benchmark::State& state) {
     }
 
   
-	
+    /*
     sf::RenderWindow window(sf::VideoMode(1000, 500), "Wizualizacja SFML");
     window.setFramerateLimit(120);
     window.setActive(false);
@@ -109,41 +97,28 @@ void symulacja(benchmark::State& state) {
         std::cref(u),
         std::cref(r_j),
         r, R, n, ciecz
-    );
+    );*/
 	for(auto _ : state) // 3. Benchmark loop
 		{
          // 4. Code to be benchmarked
         
-           //symuluj_Thomas( a,  T, delta_t,  t,  u01,u1, u, r_j,  A,    n1,  n,   b, u_sr,  h,  A_r,  Q, fb, fu,  fr, fu_srQ,  nt);
-		   symuluj_dgtsv(a, T, delta_t,  t, u01,  u1,u,r_j, n1,  n,   b,dl,diag, du, u_sr,  h,  A_r,  Q,fb, fu, fr, fu_srQ,  nt );
+           //symuluj_Thomas( a,  T, delta_t,  t,  u01,u1, u, r_j,  A,    n1,  n,   b, u_sr,  h,  A_r,  Q,nt);
+           //symuluj_Thomas3d( a,  T, delta_t,  t,  u01,u1, u, r_j,  dl,diag,du,    n1,  n,   b, u_sr,  h,  A_r,  Q,nt);
+		   symuluj_dgtsv(a, T, delta_t,  t, u01,  u1,u,r_j, n1,  n,   b,dl,diag, du, u_sr,  h,  A_r,  Q, nt );
            // benchmark::DoNotOptimize(output);
             benchmark::ClobberMemory();
         }
-         
-     
-    printf("Symulacja zakonczona\n");
-    for (int i = 0; i < n1; ++i) {
-        for (int j = 0; j < n1; ++j) {
-            fprintf(fA, "%lf\t", A[i][j]);
-        }
-        fprintf(fA, "\n");
-    }
-	
+         /*
     simulationRunning.store(false);
     if (vizThread.joinable())
-        vizThread.join();
+        vizThread.join();*/
 
     free(b);
-    fclose(fA);
-    fclose(fb);
-    fclose(fu);
-    fclose(fr);
-    fclose(fu_srQ);
-    sf::sleep(sf::seconds(5));
-
-
+   
+    //sf::sleep(sf::seconds(5));
+    state.SetBytesProcessed(state.iterations() * work_per_iteration);
 }
 
 
-BENCHMARK(symulacja);
+BENCHMARK(symulacja)->RangeMultiplier(2)->Range(1<<10, 1<<15);
 BENCHMARK_MAIN();
