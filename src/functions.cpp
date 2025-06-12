@@ -68,6 +68,21 @@ void macierz_ukladu(double delta_t, double mi, double h, const std::vector<doubl
 	A[N - 1][N - 1] = 1. / delta_t + 2. * mi / (h * h);
 
 }
+void macierz_ukladu_3d(double delta_t, double mi, double h, const std::vector<double>& r, int N,  std::vector<double> &dl, std::vector<double> &diag, std::vector<double> &du) {
+	
+	diag.at(0) = 1. / delta_t + 2. * mi / (h * h);
+	du.at(0) = -mi * (r[0] + h / 2.) / (r[0] * h * h);
+
+	for (int i = 1; i < N - 1; ++i) {
+		dl.at(i-1)  = -mi * (r[i] - h / 2.) / (r[i] * h * h);
+		diag.at(i) = 1. / delta_t + 2. * mi / (h * h);
+		du.at(i) = -mi * (r[i] + h / 2.) / (r[i] * h * h);
+	}
+	dl.at(N-1-1) = -mi * (r[N - 1] - h / 2.) / (r[N - 1] * h * h);
+	diag.at(N-1) = 1. / delta_t + 2. * mi / (h * h);
+
+}
+
 
 void wektor_prawych_stron(double a, double T, double delta_t, double t, const std::vector<double>& u0, int N,  double *b) {
 	double w;
@@ -108,9 +123,8 @@ void trapz(const std::vector<double>& x, double h, int n, double *y) {
 }
 
 void Thomas(const std::vector<std::vector<double>> &A,  std::vector<double>& x,  double* b, int N) {
-    double *alpha, *beta;
-    alpha = (double*)malloc(N * sizeof(double));
-    beta = (double*)malloc(N * sizeof(double));
+    std::vector<double> alpha(N);
+    std::vector<double> beta(N);
     alpha[0] = -A[0][1] / A[0][0];
     beta[0] = b[0] /  A[0][0];
     for (int i = 0; i < N-2; ++i) {
@@ -121,10 +135,8 @@ void Thomas(const std::vector<std::vector<double>> &A,  std::vector<double>& x, 
     for (int i = N - 2; i >= 0; --i) {
         x[i] = alpha[i] * x[i + 1] + beta[i];
     }
-    free(alpha);
-    free(beta);
+  
 }
-
 void Thomas_3D(const std::vector<double> &dl,const std::vector<double> &diag,const std::vector<double> &du,  std::vector<double>& x,  double* b, int N) {
     std::vector<double> alpha(N);
     std::vector<double> beta(N);
@@ -140,6 +152,8 @@ void Thomas_3D(const std::vector<double> &dl,const std::vector<double> &diag,con
     }
   
 }
+
+
 
 void extractTridiagonals(const std::vector<std::vector<double>> &A, 
                            std::vector<double> &dl, 

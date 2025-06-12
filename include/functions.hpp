@@ -20,6 +20,7 @@
 void wczytaj_dane(double &D, double &d, double &a, double &T, int &ciecz, double &mi, double &delta_t, double &tk);
 
 void macierz_ukladu(double delta_t, double mi, double h, const std::vector<double>& r, int N, std::vector<std::vector<double>>&A);
+void macierz_ukladu_3d(double delta_t, double mi, double h, const std::vector<double>& r, int N,  std::vector<double> &dl, std::vector<double> &diag, std::vector<double> &du);
 
 void wektor_prawych_stron(double a, double T, double delta_t, double t, const std::vector<double>& u0, int N, double* b);
 

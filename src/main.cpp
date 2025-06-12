@@ -8,7 +8,7 @@ void symulacja(benchmark::State& state) {
     
     // Liczba wezlow na y(r) – liczba wierszy macierzy wezlow [-]
     const int n=state.range(0);
-    const int work_per_iteration = 42;
+    const int work_per_iteration =41;
 
     // Srednica rury [m]
     double D=0.2;
@@ -66,24 +66,12 @@ void symulacja(benchmark::State& state) {
     // Warunki brzegowe
     u[0] = 0;
     u[n - 1] = 0;
-
-    macierz_ukladu(delta_t, mi, h, r_j1, n1, A);
-
+  
+   // macierz_ukladu(delta_t, mi, h, r_j1, n1, A);
     std::vector<double> dl(n1 - 1);
-    std::vector<double> diag(n1);
-    std::vector<double> du(n1 - 1);
-
-
-    try {
-        extractTridiagonals(A, dl, diag, du);
-        A.clear();
-    }
-    catch (const std::out_of_range& e) {
-        std::cerr << "Wyjatek std::out_of_range: " << e.what() << std::endl;
-    }
-    catch (...) {
-        std::cerr << "Rzucono nieznany wyjatek" << std::endl;
-    }
+   std::vector<double> diag(n1);
+   std::vector<double> du(n1 - 1);
+    macierz_ukladu_3d(delta_t,mi,h,r_j1,n1,dl,diag,du);
 
   
     /*
